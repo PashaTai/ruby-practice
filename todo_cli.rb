@@ -58,7 +58,7 @@ loop do
   puts '2 — добавить задачу'
   puts '3 — отметить выполненной'
   puts '0 — выход'
-  choice = gets.chomp
+  choice = gets.chomp.strip
 
   if choice == '1' && tasks.empty?
     puts 'пусто'
@@ -68,10 +68,14 @@ loop do
     end
   elsif choice == '2'
     puts 'Название задачи?'
-    task_title = gets.chomp
-    tasks << Task.new(task_title)
-    save_tasks(tasks, 'todo_data.txt')
-    puts 'Добавлено'
+    task_title = gets.chomp.strip
+    if task_title.empty?
+      puts 'Пустое название'
+    else
+      tasks << Task.new(task_title)
+      save_tasks(tasks, 'todo_data.txt')
+      puts 'Добавлено'
+    end
   elsif choice == '3'
     tasks.each_with_index do |task, i|
       puts "#{i + 1}. #{task.label}"
@@ -87,5 +91,7 @@ loop do
     end
   elsif choice == '0'
     break
+  else
+    puts 'нет такого пункта'
   end
 end
